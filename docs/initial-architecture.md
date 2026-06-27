@@ -1,6 +1,12 @@
 # Initial Architecture Direction
 
-This file is an input to the implementation. Codex should replace it with diagrams grounded in the completed proof of concept.
+This file preserves the original architecture sketch that guided the proof of
+concept. The completed implementation is documented in:
+
+- `docs/flowchart.md`
+- `docs/architecture.md`
+- `docs/system-design.md`
+- `docs/adr/0001-separate-runtime-and-gateway.md`
 
 ## Logical components
 
