@@ -20,3 +20,20 @@ def test_cli_runs_fake_provider_example() -> None:
     assert result.exit_code == 0
     assert "Agent: pr-reviewer 0.1.0" in result.stdout
     assert "Selected: fake/fake-coding-model" in result.stdout
+
+
+def test_cli_resolves_agent_with_overlay() -> None:
+    """The resolve-agent command prints the merged overlay configuration."""
+    result = CliRunner().invoke(
+        cli,
+        [
+            "resolve-agent",
+            "agents/pr-reviewer/agent.yaml",
+            "--overlay",
+            "agents/overlays/payments-team.yaml",
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert "payment idempotency" in result.stdout
+    assert '"severity_threshold": "medium"' in result.stdout
