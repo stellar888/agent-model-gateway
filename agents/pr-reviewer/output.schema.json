@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PullRequestReview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "risk_level", "findings"],
+  "properties": {
+    "summary": {"type": "string"},
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "severity", "explanation"],
+        "properties": {
+          "title": {"type": "string"},
+          "severity": {
+            "type": "string",
+            "enum": ["info", "low", "medium", "high"]
+          },
+          "explanation": {"type": "string"}
+        }
+      }
+    }
+  }
+}

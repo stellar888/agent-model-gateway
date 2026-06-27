@@ -1,0 +1,9 @@
+extends: agents/pr-reviewer/agent.yaml
+
+instructions:
+  append:
+    - Pay special attention to payment idempotency.
+    - Flag ambiguous retry behavior as at least medium severity.
+
+settings:
+  severity_threshold: medium
