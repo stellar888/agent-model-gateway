@@ -1,0 +1,35 @@
+models:
+  - provider: fake
+    model: fake-coding-model
+    capabilities:
+      tool_calling: false
+      structured_output: true
+      streaming: false
+      max_context_window: 64000
+    data_classifications:
+      - public
+      - internal
+    cost_per_1k_tokens_usd: 0
+
+  - provider: fake
+    model: fake-basic-model
+    capabilities:
+      tool_calling: false
+      structured_output: false
+      streaming: false
+      max_context_window: 8000
+    data_classifications:
+      - public
+    cost_per_1k_tokens_usd: 0
+
+  - provider: openai
+    model: configured-openai-model
+    capabilities:
+      tool_calling: true
+      structured_output: true
+      streaming: true
+      max_context_window: 128000
+    data_classifications:
+      - public
+      - internal
+    cost_per_1k_tokens_usd: 0.01

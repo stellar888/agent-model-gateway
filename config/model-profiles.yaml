@@ -1,0 +1,23 @@
+profiles:
+  coding_high:
+    requirements:
+      tool_calling: false
+      structured_output: true
+      minimum_context_window: 32000
+      allowed_data_classifications:
+        - public
+        - internal
+    routes:
+      - provider: fake
+        model: fake-coding-model
+      - provider: openai
+        model: configured-openai-model
+
+  coding_tiny:
+    requirements:
+      tool_calling: false
+      structured_output: true
+      minimum_context_window: 128000
+    routes:
+      - provider: fake
+        model: fake-basic-model
