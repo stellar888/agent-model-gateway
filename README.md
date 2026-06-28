@@ -124,3 +124,27 @@ Production evolution would add a durable workflow engine, distributed workers,
 centralized policy services, immutable agent/config registries, complete MCP
 tool integration, secrets management, tracing, audit logs, quotas, and cost
 accounting.
+
+## Real OpenAI Models
+
+The offline demo uses `fake/fake-coding-model`. To route through OpenAI, set
+`OPENAI_API_KEY` and `AMG_ENABLE_OPENAI=true` in `.env`, then use the sample
+OpenAI-backed agent:
+
+```bash
+amg run examples/openai-pr-reviewer-request.json
+```
+
+See [docs/openai-real-models.md](docs/openai-real-models.md) for direct gateway,
+agent, and HTTP API examples.
+
+## Deployment Notes
+
+For a simple EC2 demo, run the API with:
+
+```bash
+amg serve --host 0.0.0.0 --port 8000 --no-reload
+```
+
+See [docs/ec2-deployment.md](docs/ec2-deployment.md) for a minimal EC2 path and
+the production gaps to close before exposing this beyond a demo environment.

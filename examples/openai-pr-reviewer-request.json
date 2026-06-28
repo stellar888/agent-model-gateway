@@ -1,0 +1,12 @@
+{
+  "agent_path": "agents/openai-pr-reviewer/agent.yaml",
+  "overlay_path": null,
+  "input": {
+    "title": "Improve checkout validation",
+    "summary": "Adds validation for checkout totals and updates payment retry handling.",
+    "changed_files": [
+      "app/payments.py",
+      "tests/test_payments.py"
+    ]
+  }
+}

@@ -85,11 +85,15 @@ def run(request_json: Annotated[Path, typer.Argument(help="Agent run request JSO
 
 
 @cli.command()
-def serve() -> None:
+def serve(
+    host: Annotated[str, typer.Option(help="Host interface to bind.")] = "127.0.0.1",
+    port: Annotated[int, typer.Option(help="Port to listen on.")] = 8000,
+    reload: Annotated[bool, typer.Option(help="Enable development auto-reload.")] = True,
+) -> None:
     """Run the demonstration HTTP server."""
     import uvicorn
 
-    uvicorn.run("app.api:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("app.api:app", host=host, port=port, reload=reload)
 
 
 def main() -> None:

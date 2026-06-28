@@ -194,3 +194,6 @@ normalized tool calls. The gateway should continue to manage only individual
 model interactions. A durable workflow engine could persist each step, execute
 tools through an MCP gateway, and then call the model gateway again with updated
 context.
+
+See `docs/tool-mcp-gateway.md` for the proposed Tool/MCP Gateway shape and
+`docs/production-roadmap.md` for a phased production roadmap.

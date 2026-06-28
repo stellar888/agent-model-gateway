@@ -25,12 +25,32 @@ class OpenAIProvider:
 
     async def generate(self, model: str, request: ModelRequest) -> ModelResponse:
         """Call OpenAI and translate the response into the normalized contract."""
-        result = await self._client.responses.create(
-            model=model,
-            input=[_message_to_openai(message) for message in request.messages],
-            tools=[tool.model_dump(mode="json") for tool in request.tools] or None,
-            text=_text_format(request.output_schema),
+        instructions = "\n\n".join(
+            block.text or ""
+            for message in request.messages
+            if message.role.value == "system"
+            for block in message.content
+            if block.text
         )
+        input_items = [
+            _message_to_openai(message)
+            for message in request.messages
+            if message.role.value != "system"
+        ]
+        payload: dict[str, object] = {
+            "model": model,
+            "input": input_items,
+        }
+        tools = [tool.model_dump(mode="json") for tool in request.tools]
+        text_format = _text_format(request.output_schema)
+        if tools:
+            payload["tools"] = tools
+        if text_format is not None:
+            payload["text"] = text_format
+        if instructions:
+            payload["instructions"] = instructions
+
+        result = await self._client.responses.create(**payload)
         return self._normalize_response(model, result)
 
     def _normalize_response(self, model: str, result: Any) -> ModelResponse:

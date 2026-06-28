@@ -11,7 +11,19 @@ profiles:
       - provider: fake
         model: fake-coding-model
       - provider: openai
-        model: configured-openai-model
+        model: gpt-5.5
+
+  coding_high_openai:
+    requirements:
+      tool_calling: false
+      structured_output: true
+      minimum_context_window: 32000
+      allowed_data_classifications:
+        - public
+        - internal
+    routes:
+      - provider: openai
+        model: gpt-5.5
 
   coding_tiny:
     requirements:

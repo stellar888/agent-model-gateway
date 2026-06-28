@@ -1,0 +1,40 @@
+api_version: agents.example.io/v1
+kind: Agent
+
+metadata:
+  name: openai-pr-reviewer
+  version: 0.1.0
+  owner: developer-platform
+  description: Reviews a pull request summary using the OpenAI-backed profile.
+
+spec:
+  model_profile: coding_high_openai
+
+  instructions:
+    system_file: ../pr-reviewer/prompt.md
+
+  capabilities:
+    required:
+      tool_calling: false
+      structured_output: true
+      minimum_context_window: 32000
+
+  tools: []
+
+  output:
+    schema_file: ../pr-reviewer/output.schema.json
+
+  policies:
+    max_iterations: 1
+    max_cost_usd: 1.0
+    writes_allowed: false
+
+  customization:
+    append_instructions: allowed
+    settings:
+      severity_threshold: allowed
+    model_profile: locked
+    tools_add: locked
+
+  settings:
+    severity_threshold: low

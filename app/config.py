@@ -1,5 +1,6 @@
 """Application configuration helpers and service factories."""
 
+import os
 from pathlib import Path
 
 from app.gateway.registry import ProviderRegistry, load_models, load_profiles
@@ -12,10 +13,32 @@ from app.runtime.runner import AgentRunner
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
-def build_provider_registry(include_openai: bool = False) -> ProviderRegistry:
+def load_env_file(path: Path | None = None) -> None:
+    """Load a small .env file without overriding existing environment variables."""
+    env_path = path or PROJECT_ROOT / ".env"
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip("\"'"))
+
+
+def openai_enabled() -> bool:
+    """Return whether the real OpenAI provider should be registered."""
+    load_env_file()
+    return os.getenv("AMG_ENABLE_OPENAI", "").lower() in {"1", "true", "yes", "on"}
+
+
+def build_provider_registry(include_openai: bool | None = None) -> ProviderRegistry:
     """Build the provider registry used by demos and API endpoints."""
+    load_env_file()
+    should_include_openai = openai_enabled() if include_openai is None else include_openai
     providers = ProviderRegistry({"fake": FakeProvider()})
-    if include_openai:
+    if should_include_openai:
         providers.register("openai", OpenAIProvider())
     return providers
 
@@ -23,7 +46,7 @@ def build_provider_registry(include_openai: bool = False) -> ProviderRegistry:
 def build_gateway(
     models_path: Path | None = None,
     profiles_path: Path | None = None,
-    include_openai: bool = False,
+    include_openai: bool | None = None,
 ) -> ModelGateway:
     """Build a gateway from local YAML configuration."""
     providers = build_provider_registry(include_openai=include_openai)
@@ -33,6 +56,6 @@ def build_gateway(
     return ModelGateway(router, providers)
 
 
-def build_runner(include_openai: bool = False) -> AgentRunner:
+def build_runner(include_openai: bool | None = None) -> AgentRunner:
     """Build an agent runner backed by the configured model gateway."""
     return AgentRunner(build_gateway(include_openai=include_openai))

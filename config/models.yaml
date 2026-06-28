@@ -23,7 +23,7 @@ models:
     cost_per_1k_tokens_usd: 0
 
   - provider: openai
-    model: configured-openai-model
+    model: gpt-5.5
     capabilities:
       tool_calling: true
       structured_output: true
