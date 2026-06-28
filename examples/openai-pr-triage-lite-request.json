@@ -1,0 +1,11 @@
+{
+  "agent_path": "agents/openai-pr-triage-lite/agent.yaml",
+  "overlay_path": null,
+  "input": {
+    "title": "Update checkout copy",
+    "summary": "Changes labels on the checkout confirmation page without touching payment logic.",
+    "changed_files": [
+      "app/templates/checkout.html"
+    ]
+  }
+}

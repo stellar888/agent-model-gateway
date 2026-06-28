@@ -28,8 +28,29 @@ models:
       tool_calling: true
       structured_output: true
       streaming: true
-      max_context_window: 128000
+      max_context_window: 1000000
     data_classifications:
       - public
       - internal
-    cost_per_1k_tokens_usd: 0.01
+
+  - provider: openai
+    model: gpt-5.4
+    capabilities:
+      tool_calling: true
+      structured_output: true
+      streaming: true
+      max_context_window: 1000000
+    data_classifications:
+      - public
+      - internal
+
+  - provider: openai
+    model: gpt-5.4-mini
+    capabilities:
+      tool_calling: true
+      structured_output: true
+      streaming: true
+      max_context_window: 400000
+    data_classifications:
+      - public
+      - internal

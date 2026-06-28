@@ -13,7 +13,9 @@ def test_profiles_and_models_endpoints() -> None:
     models = client.get("/v1/models")
 
     assert profiles.status_code == 200
-    assert profiles.json()["profiles"][0]["name"] == "coding_high"
+    profile_names = {profile["name"] for profile in profiles.json()["profiles"]}
+    assert "coding_high" in profile_names
+    assert "coding_fast_openai" in profile_names
     assert models.status_code == 200
     assert any(model["provider"] == "fake" for model in models.json()["models"])
 

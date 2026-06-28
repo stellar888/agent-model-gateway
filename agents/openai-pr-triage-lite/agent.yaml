@@ -2,16 +2,16 @@ api_version: agents.example.io/v1
 kind: Agent
 
 metadata:
-  name: openai-pr-reviewer
+  name: openai-pr-triage-lite
   version: 0.1.0
   owner: developer-platform
-  description: Reviews a pull request summary using the OpenAI-backed profile.
+  description: Quickly triages a pull request using a lower-cost OpenAI profile.
 
 spec:
-  model_profile: coding_power_openai
+  model_profile: coding_fast_openai
 
   instructions:
-    system_file: ../pr-reviewer/prompt.md
+    system_file: prompt.md
 
   capabilities:
     required:
@@ -22,11 +22,11 @@ spec:
   tools: []
 
   output:
-    schema_file: ../pr-reviewer/output.schema.json
+    schema_file: output.schema.json
 
   policies:
     max_iterations: 1
-    max_cost_usd: 1.0
+    max_cost_usd: 0.25
     writes_allowed: false
 
   customization:
@@ -37,4 +37,4 @@ spec:
     tools_add: locked
 
   settings:
-    severity_threshold: low
+    severity_threshold: medium

@@ -135,6 +135,12 @@ OpenAI-backed agent:
 amg run examples/openai-pr-reviewer-request.json
 ```
 
+For a lighter/cheaper-style agent profile, use:
+
+```bash
+amg run examples/openai-pr-triage-lite-request.json
+```
+
 See [docs/openai-real-models.md](docs/openai-real-models.md) for direct gateway,
 agent, and HTTP API examples.
 

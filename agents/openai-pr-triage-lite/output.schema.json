@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PullRequestTriage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision", "risk_level", "reason", "recommended_reviewer"],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["fast_track", "needs_review", "block"]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "reason": {"type": "string"},
+    "recommended_reviewer": {"type": "string"}
+  }
+}

@@ -105,3 +105,20 @@ Highlight:
 - Distributed workers and queues.
 - Policy, observability, audit, quotas, and cost services.
 - Immutable agent and model configuration registries.
+
+## Optional: Show Real OpenAI Profile Tiers
+
+Open `config/model-profiles.yaml`.
+
+Show:
+
+- `coding_power_openai` routes to `gpt-5.5`.
+- `coding_balanced_openai` routes to `gpt-5.4`.
+- `coding_fast_openai` routes to `gpt-5.4-mini`.
+
+Then compare:
+
+```bash
+amg resolve-agent agents/openai-pr-reviewer/agent.yaml
+amg resolve-agent agents/openai-pr-triage-lite/agent.yaml
+```

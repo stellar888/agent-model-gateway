@@ -24,6 +24,8 @@ platform around the same runtime/gateway boundary.
   secret backend.
 - Add metrics for latency, routing decisions, token usage, cost estimates, and
   validation failures.
+- Replace demo model metadata with centrally managed model capability and
+  pricing data.
 
 ## Phase 3: Runtime Maturity
 

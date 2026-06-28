@@ -31,9 +31,21 @@ in `config/model-profiles.yaml`.
 
 ## Current Sample Model
 
-The sample configuration uses `gpt-5.5` for the OpenAI-backed route. The OpenAI
-model docs list GPT-5.5 as the latest model family in the navigation, and the
-Structured Outputs guide recommends starting new projects with `gpt-5.5`.
+The sample configuration includes a small OpenAI profile ladder:
+
+| Profile | Model | Intended use |
+| --- | --- | --- |
+| `coding_power_openai` | `gpt-5.5` | highest-power coding and review |
+| `coding_balanced_openai` | `gpt-5.4` | balanced quality and latency |
+| `coding_fast_openai` | `gpt-5.4-mini` | lighter triage and lower-latency work |
+
+The legacy `coding_high_openai` profile is kept as an alias to the high-power
+`gpt-5.5` route for existing examples.
+
+OpenAI's model docs list GPT-5.5 and GPT-5.4 variants, and the Structured
+Outputs guide recommends starting new projects with `gpt-5.5`. Treat the
+`cost_per_1k_tokens_usd` field in `config/models.yaml` as optional routing
+metadata. This repository does not encode official OpenAI pricing.
 
 To use another model, update both files:
 
@@ -60,16 +72,23 @@ whether a model satisfies an agent profile.
 
 ## Run the OpenAI-Backed Sample Agent
 
-The fake-provider agent uses `coding_high`; the real-model sample uses
-`coding_high_openai`.
+The fake-provider agent uses `coding_high`; the high-powered real-model sample
+uses `coding_power_openai`.
 
 ```bash
 amg run examples/openai-pr-reviewer-request.json
 ```
 
+Run the lighter triage agent:
+
+```bash
+amg run examples/openai-pr-triage-lite-request.json
+```
+
 That request loads:
 
 - `agents/openai-pr-reviewer/agent.yaml`
+- `agents/openai-pr-triage-lite/agent.yaml`
 - `config/model-profiles.yaml`
 - `config/models.yaml`
 - `app/providers/openai_provider.py`
@@ -162,7 +181,7 @@ metadata:
   description: Demonstrates a custom OpenAI-backed agent.
 
 spec:
-  model_profile: coding_high_openai
+  model_profile: coding_power_openai
   instructions:
     system_file: prompt.md
   capabilities:

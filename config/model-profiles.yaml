@@ -25,6 +25,42 @@ profiles:
       - provider: openai
         model: gpt-5.5
 
+  coding_power_openai:
+    requirements:
+      tool_calling: false
+      structured_output: true
+      minimum_context_window: 32000
+      allowed_data_classifications:
+        - public
+        - internal
+    routes:
+      - provider: openai
+        model: gpt-5.5
+
+  coding_balanced_openai:
+    requirements:
+      tool_calling: false
+      structured_output: true
+      minimum_context_window: 32000
+      allowed_data_classifications:
+        - public
+        - internal
+    routes:
+      - provider: openai
+        model: gpt-5.4
+
+  coding_fast_openai:
+    requirements:
+      tool_calling: false
+      structured_output: true
+      minimum_context_window: 32000
+      allowed_data_classifications:
+        - public
+        - internal
+    routes:
+      - provider: openai
+        model: gpt-5.4-mini
+
   coding_tiny:
     requirements:
       tool_calling: false
