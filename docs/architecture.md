@@ -3,7 +3,7 @@
 ```mermaid
 flowchart LR
     subgraph Clients
-        CLI[agent-poc CLI]
+        CLI[amg CLI]
         API[FastAPI HTTP API]
     end
 

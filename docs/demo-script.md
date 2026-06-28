@@ -24,7 +24,7 @@ the default offline path.
 ## 3. Run the Base Agent
 
 ```bash
-agent-poc run examples/pr-reviewer-request.json
+amg run examples/pr-reviewer-request.json
 ```
 
 Expected talking points:
@@ -37,7 +37,7 @@ Expected talking points:
 ## 4. Run with the Payments Overlay
 
 ```bash
-agent-poc resolve-agent agents/pr-reviewer/agent.yaml --overlay agents/overlays/payments-team.yaml
+amg resolve-agent agents/pr-reviewer/agent.yaml --overlay agents/overlays/payments-team.yaml
 ```
 
 Point out:
@@ -50,8 +50,8 @@ Point out:
 ## 5. Show Capability-Aware Routing
 
 ```bash
-agent-poc profiles
-agent-poc models
+amg profiles
+amg models
 ```
 
 Explain:

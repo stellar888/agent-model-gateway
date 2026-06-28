@@ -28,7 +28,7 @@ dev = [
 ]
 
 [project.scripts]
-agent-poc = "app.cli:main"
+amg = "app.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["app"]

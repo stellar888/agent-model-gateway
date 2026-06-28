@@ -49,37 +49,37 @@ The OpenAI adapter is optional and isolated in `app/providers/openai_provider.py
 List logical profiles:
 
 ```bash
-agent-poc profiles
+amg profiles
 ```
 
 List configured concrete models:
 
 ```bash
-agent-poc models
+amg models
 ```
 
 Resolve the base agent:
 
 ```bash
-agent-poc resolve-agent agents/pr-reviewer/agent.yaml
+amg resolve-agent agents/pr-reviewer/agent.yaml
 ```
 
 Resolve with the payments overlay:
 
 ```bash
-agent-poc resolve-agent agents/pr-reviewer/agent.yaml --overlay agents/overlays/payments-team.yaml
+amg resolve-agent agents/pr-reviewer/agent.yaml --overlay agents/overlays/payments-team.yaml
 ```
 
 Run the default fake-provider example:
 
 ```bash
-agent-poc run examples/pr-reviewer-request.json
+amg run examples/pr-reviewer-request.json
 ```
 
 Start the HTTP API:
 
 ```bash
-agent-poc serve
+amg serve
 ```
 
 Available endpoints:

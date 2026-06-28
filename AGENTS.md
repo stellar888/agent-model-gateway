@@ -217,11 +217,11 @@ The HTTP API is for demonstration. The same services must be callable directly f
 Implement commands similar to:
 
 ```bash
-agent-poc profiles
-agent-poc models
-agent-poc resolve-agent agents/pr-reviewer/agent.yaml
-agent-poc run examples/pr-reviewer-request.json
-agent-poc serve
+amg profiles
+amg models
+amg resolve-agent agents/pr-reviewer/agent.yaml
+amg run examples/pr-reviewer-request.json
+amg serve
 ```
 
 The default example should use the fake provider.

@@ -3,11 +3,11 @@
 Implement these commands:
 
 ```bash
-agent-poc profiles
-agent-poc models
-agent-poc resolve-agent PATH [--overlay PATH]
-agent-poc run REQUEST_JSON
-agent-poc serve
+amg profiles
+amg models
+amg resolve-agent PATH [--overlay PATH]
+amg run REQUEST_JSON
+amg serve
 ```
 
 Create `examples/pr-reviewer-request.json`.

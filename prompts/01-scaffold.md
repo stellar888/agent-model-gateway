@@ -20,7 +20,7 @@ Use:
 Requirements:
 
 1. Configure editable installation.
-2. Add a console entry point named `agent-poc`.
+2. Add a console entry point named `amg`.
 3. Configure Ruff and mypy.
 4. Create a minimal `/health` endpoint.
 5. Add one health endpoint test.

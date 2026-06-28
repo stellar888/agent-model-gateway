@@ -174,7 +174,7 @@ separate gateway service.
 
 ## Deployment Evolution
 
-The proof of concept can run locally with `agent-poc` or FastAPI. A first
+The proof of concept can run locally with `amg` or FastAPI. A first
 production deployment could package the API as a container, mount read-only
 agent/config artifacts, and inject provider credentials through a secrets
 manager. Later versions can add distributed workers and per-team policy.
