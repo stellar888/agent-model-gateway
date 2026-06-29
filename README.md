@@ -105,6 +105,9 @@ pytest
 
 ## Key Design Boundary
 
+For a fuller narrative explanation with diagrams and snippets, read
+[docs/technical-design.md](docs/technical-design.md).
+
 ```mermaid
 flowchart TD
     Agent[Agent Runtime] --> Gateway[Model Gateway]
