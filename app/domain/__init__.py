@@ -18,6 +18,7 @@ from app.domain.capabilities import (
     ModelProfileRequirements,
     ModelRoute,
 )
+from app.domain.identity import IdentityContext
 from app.domain.messages import ContentBlock, ContentBlockType, Message, MessageRole
 from app.domain.models import (
     ModelDescriptor,
@@ -25,6 +26,12 @@ from app.domain.models import (
     ModelRequestResult,
     RequestConstraints,
     ToolDefinition,
+)
+from app.domain.resolution import (
+    PolicyDecision,
+    ResolveModelRequest,
+    ResolveModelResult,
+    SelectedModel,
 )
 from app.domain.responses import ModelResponse, TokenUsage, ToolCall
 
@@ -41,6 +48,7 @@ __all__ = [
     "ContentBlock",
     "ContentBlockType",
     "CustomizationPolicy",
+    "IdentityContext",
     "Message",
     "MessageRole",
     "ModelCapabilities",
@@ -52,6 +60,10 @@ __all__ = [
     "ModelResponse",
     "ModelRoute",
     "RequestConstraints",
+    "PolicyDecision",
+    "ResolveModelRequest",
+    "ResolveModelResult",
+    "SelectedModel",
     "TokenUsage",
     "ToolCall",
     "ToolDefinition",

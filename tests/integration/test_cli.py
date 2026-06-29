@@ -37,3 +37,12 @@ def test_cli_resolves_agent_with_overlay() -> None:
     assert result.exit_code == 0
     assert "payment idempotency" in result.stdout
     assert '"severity_threshold": "medium"' in result.stdout
+
+
+def test_cli_resolves_model_request() -> None:
+    """The resolve-model command returns a resolver-only decision."""
+    result = CliRunner().invoke(cli, ["resolve-model", "examples/resolve-model-request.json"])
+
+    assert result.exit_code == 0
+    assert '"provider": "fake"' in result.stdout
+    assert '"budget_scope": "department:payments"' in result.stdout

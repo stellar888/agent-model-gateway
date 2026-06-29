@@ -76,6 +76,18 @@ Run the default fake-provider example:
 amg run examples/pr-reviewer-request.json
 ```
 
+Resolve a model profile without calling a provider:
+
+```bash
+amg resolve-model examples/resolve-model-request.json
+```
+
+Print recent local gateway events:
+
+```bash
+amg events
+```
+
 Start the HTTP API:
 
 ```bash
@@ -89,7 +101,10 @@ GET  /health
 GET  /v1/profiles
 GET  /v1/models
 POST /v1/generate
+POST /v1/resolve
 POST /v1/agents/run
+GET  /v1/events/recent
+GET  /dashboard
 ```
 
 ## Quality Gate
@@ -120,6 +135,11 @@ flowchart TD
 The gateway manages one model interaction. The runtime manages agent behavior,
 context assembly, overlay resolution, structured validation, and future tool
 loops.
+
+For incremental adoption in a large organization, start with `POST /v1/resolve`.
+It returns the selected provider/model plus routing metadata without executing a
+provider call. Later, provider execution can move behind the gateway for
+authoritative usage capture, throttling, and provider isolation.
 
 ## Future Work
 

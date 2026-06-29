@@ -77,6 +77,125 @@ Implemented proof-of-concept modules:
 - Profiles and models: `config/`
 - Sample agents: `agents/`
 
+## Incremental Adoption Path
+
+Large organizations do not need to adopt a full execution gateway on day one.
+The architecture can start with model resolution only and move provider
+execution behind the gateway later.
+
+```mermaid
+flowchart LR
+    A[Phase 1: Resolve only] --> B[Phase 2: Identity and decision logs]
+    B --> C[Phase 3: Usage reporting and dashboard]
+    C --> D[Phase 4: Execution gateway]
+    D --> E[Phase 5: Runtime, policy, and Tool/MCP platform]
+```
+
+The first increment is now implemented as `POST /v1/resolve` and
+`amg resolve-model`. It returns a selected provider/model and a structured
+routing decision without calling the provider. This is useful when teams still
+own their direct provider calls but want centralized model selection and
+governance metadata.
+
+The trade-off is that resolver-only mode cannot authoritatively capture token
+usage. It can emit decision events, but usage remains caller-reported until
+provider execution moves behind the gateway.
+
+## Identity Context
+
+Every resolver request should carry an identity envelope. This is what lets the
+gateway connect routing decisions to a user, department, team, agent instance,
+and run.
+
+```json
+{
+  "tenant_id": "acme",
+  "department_id": "payments",
+  "team_id": "checkout-platform",
+  "user_id": "user_123",
+  "agent_id": "pr-reviewer",
+  "agent_version": "0.1.0",
+  "agent_instance_id": "repo:payments-api:pr-reviewer",
+  "agent_run_id": "run_01JABC",
+  "environment": "production",
+  "source": "github-pr",
+  "correlation_id": "trace_01JXYZ"
+}
+```
+
+Identifier roles:
+
+| Field | Purpose |
+| --- | --- |
+| `tenant_id` | Top-level organization or customer boundary |
+| `department_id` | Budget and policy owner |
+| `team_id` | Operational owner |
+| `user_id` | Human or service identity that triggered the request |
+| `agent_id` | Stable logical agent name |
+| `agent_version` | Version of the agent definition |
+| `agent_instance_id` | Deployment or configuration instance of the agent |
+| `agent_run_id` | One execution attempt |
+| `correlation_id` | Cross-service trace/log join key |
+
+## Resolver-Only Request
+
+```json
+{
+  "model_profile": "coding_high",
+  "constraints": {
+    "data_classification": "internal",
+    "minimum_context_window": 32000
+  },
+  "identity": {
+    "tenant_id": "acme",
+    "department_id": "payments",
+    "team_id": "checkout-platform",
+    "user_id": "user_123",
+    "agent_id": "pr-reviewer",
+    "agent_version": "0.1.0",
+    "agent_instance_id": "repo:payments-api:pr-reviewer",
+    "agent_run_id": "run_01JABC",
+    "environment": "development"
+  }
+}
+```
+
+Example response:
+
+```json
+{
+  "decision_id": "route_...",
+  "selected": {
+    "provider": "fake",
+    "model": "fake-coding-model"
+  },
+  "routing": {
+    "profile": "coding_high",
+    "selected_provider": "fake",
+    "selected_model": "fake-coding-model",
+    "rejected_candidates": []
+  },
+  "policy": {
+    "allowed": true,
+    "budget_scope": "department:payments"
+  }
+}
+```
+
+CLI example:
+
+```bash
+amg resolve-model examples/resolve-model-request.json
+```
+
+HTTP example:
+
+```bash
+curl -sS http://127.0.0.1:8000/v1/resolve \
+  -H "Content-Type: application/json" \
+  -d @examples/resolve-model-request.json
+```
+
 ## Request Lifecycle
 
 ```mermaid
@@ -301,6 +420,45 @@ The gateway also returns routing metadata:
 
 This is the basis for analytics, audit, budget enforcement, and route
 explainability.
+
+## Observability and Dashboard
+
+The gateway emits redacted structured events for resolver decisions. The local
+proof of concept writes JSONL events to `logs/gateway-events.jsonl`, exposes
+recent events at `/v1/events/recent`, and includes a simple HTML dashboard at
+`/dashboard`.
+
+Example event:
+
+```json
+{
+  "event_id": "evt_...",
+  "event_type": "model_resolved",
+  "timestamp": "2026-06-29T10:15:00Z",
+  "decision_id": "route_...",
+  "identity": {
+    "tenant_id": "acme",
+    "department_id": "payments",
+    "team_id": "checkout-platform",
+    "user_id": "user_123",
+    "agent_id": "pr-reviewer",
+    "agent_version": "0.1.0",
+    "agent_instance_id": "repo:payments-api:pr-reviewer",
+    "agent_run_id": "run_01JABC",
+    "environment": "development"
+  },
+  "model_profile": "coding_high",
+  "selected_provider": "fake",
+  "selected_model": "fake-coding-model",
+  "status": "allowed",
+  "latency_ms": 3
+}
+```
+
+Production deployments should send these events to OpenTelemetry, an event
+stream, and an analytical store. The same event schema can power live activity
+views, department usage reports, routing audits, throttling dashboards, and
+provider health views.
 
 ## Control Plane Responsibilities
 

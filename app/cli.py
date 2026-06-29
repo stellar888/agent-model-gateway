@@ -10,6 +10,8 @@ import typer
 from app import __version__
 from app.config import PROJECT_ROOT, build_runner
 from app.domain.agent import AgentRunRequest
+from app.domain.resolution import ResolveModelRequest
+from app.gateway.events import default_event_sink
 from app.gateway.registry import load_models, load_profiles
 from app.runtime.loader import load_agent
 from app.runtime.overlays import apply_overlay, resolve_without_overlay
@@ -82,6 +84,28 @@ def run(request_json: Annotated[Path, typer.Argument(help="Agent run request JSO
     typer.echo(json.dumps(result.structured_output, indent=2, sort_keys=True))
     typer.echo("Token usage:")
     typer.echo(json.dumps(result.token_usage.model_dump(mode="json"), indent=2, sort_keys=True))
+
+
+@cli.command("resolve-model")
+def resolve_model(
+    request_json: Annotated[Path, typer.Argument(help="Resolver request JSON file.")],
+) -> None:
+    """Resolve a model profile without executing a provider call."""
+    from app.config import build_resolver
+
+    request_data = json.loads(request_json.read_text(encoding="utf-8"))
+    request = ResolveModelRequest.model_validate(request_data)
+    result = build_resolver().resolve(request)
+    typer.echo(json.dumps(result.model_dump(mode="json"), indent=2, sort_keys=True))
+
+
+@cli.command("events")
+def events(
+    limit: Annotated[int, typer.Option(help="Number of recent events to print.")] = 20,
+) -> None:
+    """Print recent local gateway events."""
+    recent = default_event_sink().recent(limit)
+    typer.echo(json.dumps([event.model_dump(mode="json") for event in recent], indent=2))
 
 
 @cli.command()

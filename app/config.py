@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 from app.gateway.registry import ProviderRegistry, load_models, load_profiles
+from app.gateway.resolver import ModelResolver
 from app.gateway.router import CapabilityRouter
 from app.gateway.service import ModelGateway
 from app.providers.fake_provider import FakeProvider
@@ -57,6 +58,15 @@ def build_gateway(
     profiles = load_profiles(profiles_path or PROJECT_ROOT / "config/model-profiles.yaml")
     router = CapabilityRouter(profiles, models, providers)
     return ModelGateway(router, providers)
+
+
+def build_resolver(include_openai: bool | None = None) -> ModelResolver:
+    """Build a resolver-only gateway from local YAML configuration."""
+    providers = build_provider_registry(include_openai=include_openai)
+    models = load_models(PROJECT_ROOT / "config/models.yaml")
+    profiles = load_profiles(PROJECT_ROOT / "config/model-profiles.yaml")
+    router = CapabilityRouter(profiles, models, providers)
+    return ModelResolver(router)
 
 
 def build_runner(include_openai: bool | None = None) -> AgentRunner:

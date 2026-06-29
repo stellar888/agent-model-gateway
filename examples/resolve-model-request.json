@@ -1,0 +1,20 @@
+{
+  "model_profile": "coding_high",
+  "constraints": {
+    "data_classification": "internal",
+    "minimum_context_window": 32000
+  },
+  "identity": {
+    "tenant_id": "acme",
+    "department_id": "payments",
+    "team_id": "checkout-platform",
+    "user_id": "user_123",
+    "agent_id": "pr-reviewer",
+    "agent_version": "0.1.0",
+    "agent_instance_id": "repo:payments-api:pr-reviewer",
+    "agent_run_id": "run_01JABC",
+    "environment": "development",
+    "source": "github-pr",
+    "correlation_id": "trace_01JXYZ"
+  }
+}
