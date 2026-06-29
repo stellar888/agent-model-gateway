@@ -6,7 +6,7 @@ The Agent Model Gateway gives a large organization one controlled place to
 decide which model an agent should use, observe model activity, and eventually
 enforce budgets, quotas, and provider policy.
 
-The core idea is simple:
+The core idea:
 
 ```text
 Agents ask for capabilities.
@@ -46,7 +46,7 @@ flowchart LR
     Events --> Dashboard[Dashboard and Logs]
 ```
 
-The gateway can start small. It does not need to call OpenAI on day one. The
+The gateway can start small. It does not need to call Anthropic/OpenAI/etc on day one. The
 first stage can simply answer: "For this agent, user, department, and requested
 capability profile, which model is allowed?"
 
@@ -350,3 +350,5 @@ Tool/MCP Gateway owns tool execution and side effects.
 
 That separation keeps the system scalable, observable, and understandable as
 the number of agents and model providers grows.
+
+This module can be developed in Python as performance is not a concern at the start. Stage 1 is extremely lightweight, while in Stage 2, the request duration is mostly bound to the response time of the provider or I/O bound if we are querying tables etc. As it matures and scales, Rust can be brought in if performance becomes a bottleneck in parts of the system.
