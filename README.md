@@ -122,6 +122,8 @@ pytest
 
 For a fuller narrative explanation with diagrams and snippets, read
 [docs/technical-design.md](docs/technical-design.md).
+For a shorter staged view of resolver-first adoption, dashboard needs, and the
+future execution gateway, read [docs/staged-architecture.md](docs/staged-architecture.md).
 
 ```mermaid
 flowchart TD
