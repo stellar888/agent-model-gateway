@@ -1,4 +1,4 @@
-# Staged Architecture: Agent Model Gateway
+# Agent Model Gateway (AMG)
 
 ## Purpose
 
