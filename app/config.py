@@ -30,7 +30,10 @@ def load_env_file(path: Path | None = None) -> None:
 def openai_enabled() -> bool:
     """Return whether the real OpenAI provider should be registered."""
     load_env_file()
-    return os.getenv("AMG_ENABLE_OPENAI", "").lower() in {"1", "true", "yes", "on"}
+    explicit_setting = os.getenv("AMG_ENABLE_OPENAI")
+    if explicit_setting is not None:
+        return explicit_setting.lower() in {"1", "true", "yes", "on"}
+    return bool(os.getenv("OPENAI_API_KEY"))
 
 
 def build_provider_registry(include_openai: bool | None = None) -> ProviderRegistry:

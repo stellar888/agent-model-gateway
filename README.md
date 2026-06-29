@@ -128,8 +128,9 @@ accounting.
 ## Real OpenAI Models
 
 The offline demo uses `fake/fake-coding-model`. To route through OpenAI, set
-`OPENAI_API_KEY` and `AMG_ENABLE_OPENAI=true` in `.env`, then use the sample
-OpenAI-backed agent:
+`OPENAI_API_KEY` in `.env`, then use the sample OpenAI-backed agent. You can
+also set `AMG_ENABLE_OPENAI=true` explicitly, but it is optional when a key is
+present:
 
 ```bash
 amg run examples/openai-pr-reviewer-request.json

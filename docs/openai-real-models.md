@@ -21,13 +21,15 @@ Then set:
 
 ```bash
 OPENAI_API_KEY=sk-...
-AMG_ENABLE_OPENAI=true
 APP_ENV=development
 ```
 
-That is enough for this repository to register the OpenAI provider. The
-configured model lives in `config/models.yaml` and the OpenAI-only route lives
-in `config/model-profiles.yaml`.
+That is enough for this repository to register the OpenAI provider. If you want
+to be explicit, set `AMG_ENABLE_OPENAI=true`; if you want to force the fake-only
+path even when a key is present, set `AMG_ENABLE_OPENAI=false`.
+
+The configured model lives in `config/models.yaml` and the OpenAI-only route
+lives in `config/model-profiles.yaml`.
 
 ## Current Sample Model
 
@@ -106,7 +108,7 @@ from app.domain import Message, MessageRole, ModelRequest
 
 
 async def main() -> None:
-    gateway = build_gateway()
+    gateway = build_gateway(include_openai=True)
     result = await gateway.generate(
         ModelRequest(
             model_profile="coding_high_openai",

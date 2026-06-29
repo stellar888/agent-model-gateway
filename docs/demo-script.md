@@ -93,6 +93,9 @@ Expected talking points:
 - The router raises a typed error.
 - The rejection includes structured reasons.
 - There is no silent fallback to a model that lacks required capabilities.
+- If you see this error for `coding_fast_openai`, OpenAI is not registered for
+  the current process. Set `OPENAI_API_KEY` in `.env` or call
+  `build_gateway(include_openai=True)` in direct Python scripts.
 
 ## 7. Point to the Production Scaling Path
 

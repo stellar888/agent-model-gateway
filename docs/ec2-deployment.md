@@ -24,9 +24,11 @@ cp .env.example .env
 
 ```bash
 OPENAI_API_KEY=sk-...
-AMG_ENABLE_OPENAI=true
 APP_ENV=development
 ```
+
+`AMG_ENABLE_OPENAI=true` is optional when `OPENAI_API_KEY` is present. Set
+`AMG_ENABLE_OPENAI=false` only when you want to force fake-provider routing.
 
 8. Run the API:
 
